@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="fr">
+<head>
+	<meta charset="utf-8">
+	<title>Une p'tite partie ?</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+    <h1>Une p'tite partie ?</h1>
+
+
+    <script type="module">
+        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+        const SUPABASE_URL = 'https://cvlqbltzjeygagcffrpw.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN2bHFibHR6amV5Z2FnY2ZmcnB3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2NDg4NDQwNjYsImV4cCI6MTk2NDQyMDA2Nn0.XrRLn6UfjFlNd5W6aXhU4OqZNzvYg5IFiUGCCmzpUc0';
+
+        const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        // const { user, session, error } = await supabase.auth.signUp({
+        //     email: 'hirtemalmu@vusra.com',
+        //     password: 'foobar'
+        // })
+
+        const { data, error } = await supabase
+            .from('meetups')
+            .select('organizer:players!meetups_organizer_id_fkey(nickname),title,place,description,players:meetups_players(player:players(nickname),confirmed)');
+
+
+        console.log({ data, error });
+    </script>
+</body>
+</html>
